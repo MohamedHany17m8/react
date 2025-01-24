@@ -1,15 +1,19 @@
 import React from "react";
 import NewComponent from "./NewComponent";
-
+import { useState } from "react";
 const App = () => {
+  const [name, setName] = useState("Mohamed");
+  const handleClick = () => {
+    setName("Hany"); // Change the name to "Hany"
+  };
   const items = [
     {
       id: 1,
       title: "Item 1",
       children: (
         <div>
-          <p>This is the content for Item 1.</p>
-          <button onClick={() => alert("Button 1 clicked!")}>Click Me</button>
+          <h1>Name: {name}</h1>
+          <button onClick={handleClick}>Change Name</button>
         </div>
       ),
     },
