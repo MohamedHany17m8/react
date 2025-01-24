@@ -3,8 +3,17 @@ import NewComponent from "./NewComponent";
 import { useState } from "react";
 const App = () => {
   const [name, setName] = useState("Mohamed");
+  const [clickCount, setClickCount] = useState(0);
   const handleClick = () => {
-    setName("Hany"); // Change the name to "Hany"
+    setClickCount((prevCount) => prevCount + 1); // Increment click count
+
+    // Step 4: Change the name based on the click count
+    if (clickCount === 0) {
+      setName("Hany"); // First click: Change to "Hany"
+    } else if (clickCount === 1) {
+      setName("Elsayed"); // Second click: Change to "Elsayed"
+    }
+    // You can add more conditions for additional clicks if needed
   };
   const items = [
     {
