@@ -1,0 +1,25 @@
+/* NewComponent.css */
+.new-component {
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin: 10px;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+.new-component h3 {
+  color: #333;
+  font-size: 1.5em;
+  margin-bottom: 5px;
+}
+
+.new-component h4 {
+  color: #555;
+  font-size: 1.2em;
+  margin-bottom: 10px;
+}
+
+.new-component .content {
+  color: #777;
+  font-size: 1em;
+}
