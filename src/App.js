@@ -2,7 +2,6 @@ import React from "react";
 import NewComponent from "./NewComponent";
 
 const App = () => {
-  // Sample data: an array of objects with `id`, `title`, and `children` as JSX
   const items = [
     {
       id: 1,
