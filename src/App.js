@@ -1,6 +1,7 @@
 import React from "react";
 import NewComponent from "./NewComponent";
 import { useState } from "react";
+import InputComponent from "./InputComponent";
 const App = () => {
   const [name, setName] = useState("Mohamed");
   const [clickCount, setClickCount] = useState(0);
@@ -21,6 +22,8 @@ const App = () => {
       title: "Item 1",
       children: (
         <div>
+          <h1>React Input Example</h1>
+          <InputComponent />
           <h1>Name: {name}</h1>
           <button onClick={handleClick}>Change Name</button>
         </div>
