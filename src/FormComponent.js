@@ -1,17 +1,29 @@
 import React, { useState } from "react";
 
 const FormComponent = () => {
-  // State for name and email
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
+  // Single state to store all form values as an object
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    age: "",
+  });
+
+  // Function to handle input changes
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    // Update the state using the spread operator to preserve other fields
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
 
   // Function to handle form submission
   const handleSubmit = (event) => {
     event.preventDefault(); // Prevent the default form submission behavior
 
-    // Log the values (or perform your desired action)
-    console.log("Name:", name);
-    console.log("Email:", email);
+    // Log the form data object
+    console.log("Form Data:", formData);
 
     // Optionally, you can send the data to an API or perform other actions here
   };
@@ -23,8 +35,9 @@ const FormComponent = () => {
         <input
           type="text"
           id="name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
+          name="name"
+          value={formData.name}
+          onChange={handleInputChange}
           placeholder="Enter your name"
           required
         />
@@ -34,9 +47,22 @@ const FormComponent = () => {
         <input
           type="email"
           id="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          name="email"
+          value={formData.email}
+          onChange={handleInputChange}
           placeholder="Enter your email"
+          required
+        />
+      </div>
+      <div>
+        <label htmlFor="age">Age: </label>
+        <input
+          type="number"
+          id="age"
+          name="age"
+          value={formData.age}
+          onChange={handleInputChange}
+          placeholder="Enter your age"
           required
         />
       </div>
