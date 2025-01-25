@@ -6,15 +6,18 @@ const FormComponent = () => {
     name: "",
     email: "",
     age: "",
+    bio: "", // New field for textarea
+    subscribe: false, // New field for checkbox
   });
 
   // Function to handle input changes
   const handleInputChange = (event) => {
-    const { name, value } = event.target;
+    const { name, value, type, checked } = event.target;
+
     // Update the state using the spread operator to preserve other fields
     setFormData({
       ...formData,
-      [name]: value,
+      [name]: type === "checkbox" ? checked : value, // Handle checkbox separately
     });
   };
 
@@ -65,6 +68,29 @@ const FormComponent = () => {
           placeholder="Enter your age"
           required
         />
+      </div>
+      <div>
+        <label htmlFor="bio">Bio: </label>
+        <textarea
+          id="bio"
+          name="bio"
+          value={formData.bio}
+          onChange={handleInputChange}
+          placeholder="Tell us about yourself"
+          rows={4}
+        />
+      </div>
+      <div>
+        <label htmlFor="subscribe">
+          <input
+            type="checkbox"
+            id="subscribe"
+            name="subscribe"
+            checked={formData.subscribe}
+            onChange={handleInputChange}
+          />
+          Subscribe to newsletter
+        </label>
       </div>
       <button type="submit">Submit</button>
     </form>
