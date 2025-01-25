@@ -4,7 +4,7 @@ const App = () => {
   return (
     <div>
       <div>
-        <h1>React Form with Single State Object</h1>
+        <h1>React Form with Select and Radio Buttons</h1>
         <FormComponent />
       </div>
     </div>
