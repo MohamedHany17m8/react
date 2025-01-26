@@ -1,63 +1,137 @@
 import React from "react";
 import { useState } from "react";
 
-function PhoneList() {
-  const [phones, setPhones] = useState([
-    { id: 1, type: "iPhone" },
-    { id: 2, type: "Samsung" },
-    { id: 3, type: "Google Pixel" },
-    { id: 4, type: "OnePlus" },
-  ]);
-  const [newPhone, setNewPhone] = useState("");
-  const [nextId, setNextId] = useState(5);
+const initialProducts = [
+  {
+    id: 0,
+    name: "Baklava",
+    count: 1,
+  },
+  {
+    id: 1,
+    name: "Cheese",
+    count: 5,
+  },
+  {
+    id: 2,
+    name: "Spaghetti",
+    count: 2,
+  },
+];
 
-  const addPhone = () => {
-    if (newPhone.trim()) {
-      setPhones((prev) => [...prev, { id: nextId, type: newPhone }]);
-      setNextId((prev) => prev + 1);
-      setNewPhone("");
-    }
-  };
+export default function ShoppingCart() {
+  const [products, setProducts] = useState(initialProducts);
+  const [newProductName, setNewProductName] = useState("");
+  const [editingProductId, setEditingProductId] = useState(null);
+  const [editedProductName, setEditedProductName] = useState("");
 
-  const deletePhone = (id) => {
-    setPhones((prevPhones) => {
-      const index = prevPhones.findIndex((phone) => phone.id === id);
-      if (index !== -1) {
-        const newPhones = [...prevPhones];
-        newPhones.splice(index, 1);
-        return newPhones;
+  // Handle increasing product count
+  function handleIncreaseClick(productId) {
+    const newProducts = products.map((product) => {
+      if (product.id === productId) {
+        return {
+          ...product,
+          count: product.count + 1,
+        };
       }
-      return prevPhones;
+      return product;
     });
-  };
-  const handleKeyDown = (e) => {
-    if (e.key === "Enter") {
-      addPhone();
+    setProducts(newProducts);
+  }
+
+  // Handle decreasing product count
+  function handleDecreaseClick(productId) {
+    const newProducts = products.map((product) => {
+      if (product.id === productId && product.count > 0) {
+        return {
+          ...product,
+          count: product.count - 1,
+        };
+      }
+      return product;
+    });
+    setProducts(newProducts);
+  }
+
+  // Handle editing product name
+  function handleEditClick(productId, currentName) {
+    setEditingProductId(productId);
+    setEditedProductName(currentName);
+  }
+
+  // Save the edited product name
+  function handleSaveClick(productId) {
+    const newProducts = products.map((product) => {
+      if (product.id === productId) {
+        return {
+          ...product,
+          name: editedProductName,
+        };
+      }
+      return product;
+    });
+    setProducts(newProducts);
+    setEditingProductId(null); // Exit edit mode
+  }
+
+  // Handle adding a new product
+  function handleAddProduct() {
+    if (newProductName.trim()) {
+      const newProduct = {
+        id: products.length, // Simple ID generation (not ideal for production)
+        name: newProductName,
+        count: 1,
+      };
+      setProducts([...products, newProduct]);
+      setNewProductName(""); // Clear the input field
     }
-  };
+  }
+
   return (
     <div>
-      <h1>Phone Types</h1>
+      {/* Input field for adding new products */}
       <div>
         <input
           type="text"
-          value={newPhone}
-          onChange={(e) => setNewPhone(e.target.value)}
-          placeholder="Enter phone type"
-          onKeyDown={handleKeyDown} // Add this line
+          value={newProductName}
+          onChange={(e) => setNewProductName(e.target.value)}
+          placeholder="Enter product name"
         />
-        <button onClick={addPhone}>Add</button>
+        <button onClick={handleAddProduct}>Add Product</button>
       </div>
+
+      {/* List of products */}
       <ul>
-        {phones.map((phone) => (
-          <li key={phone.id}>
-            {phone.type}
-            <button onClick={() => deletePhone(phone.id)}>Delete</button>
+        {products.map((product) => (
+          <li key={product.id}>
+            {/* Display product name or edit input field */}
+            {editingProductId === product.id ? (
+              <input
+                type="text"
+                value={editedProductName}
+                onChange={(e) => setEditedProductName(e.target.value)}
+              />
+            ) : (
+              <>
+                {product.name} (<b>{product.count}</b>)
+              </>
+            )}
+
+            {/* Increase and decrease buttons */}
+            <button onClick={() => handleIncreaseClick(product.id)}>+</button>
+            <button onClick={() => handleDecreaseClick(product.id)}>-</button>
+
+            {/* Edit and Save buttons */}
+            {editingProductId === product.id ? (
+              <button onClick={() => handleSaveClick(product.id)}>Save</button>
+            ) : (
+              <button onClick={() => handleEditClick(product.id, product.name)}>
+                Edit
+              </button>
+            )}
           </li>
         ))}
       </ul>
     </div>
   );
 }
-
-export default PhoneList;
