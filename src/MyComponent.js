@@ -1,36 +1,26 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+// MyComponent.js
+import React, { useContext } from "react";
+import { MyContext } from "./App";
 
 function MyComponent() {
-  const [post, setPost] = useState({});
-  const [id, setId] = useState(1);
-  const [idFromButtonClick, setIdFromButtonClick] = useState(1);
+  // Consume the context
+  const { value, setValue } = useContext(MyContext);
 
-  useEffect(() => {
-    axios
-      .get(`https://jsonplaceholder.typicode.com/posts/${idFromButtonClick}`)
-      .then((res) => {
-        console.log(res);
-        setPost(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, [idFromButtonClick]);
-
-  const handleClick = () => {
-    setIdFromButtonClick(id);
+  const handleChange = () => {
+    setValue((prevValue) =>
+      prevValue === "Hello from Context!"
+        ? "Updated Value from MyComponent!"
+        : "Hello from Context!"
+    );
   };
 
   return (
     <div>
-      <input type="text" value={id} onChange={(e) => setId(e.target.value)} />
-      <button onClick={handleClick}>Fetch Post</button>
-      <div>
-        <h3>{post.title}</h3>
-        <p>{post.body}</p>
-      </div>
+      <h2>MyComponent</h2>
+      <p>Context Value: {value}</p>
+      <button onClick={handleChange}>Update Context</button>
     </div>
   );
 }
+
 export default MyComponent;
