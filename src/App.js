@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import CounterApp from "./CounterApp";
+import MyComponent from "./MyComponent";
 
 function App() {
   return (
     <div>
-      <CounterApp />
+      <MyComponent />
     </div>
   );
 }
